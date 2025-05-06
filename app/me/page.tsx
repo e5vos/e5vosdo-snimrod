@@ -4,7 +4,6 @@ import IDCard from "./IDCard";
 import PleaseLogin from "./redirectToLogin";
 import Tray from "@/components/tray";
 import Settings from "./Settings";
-import { LogoutBadge } from "@/components/LogOut";
 
 const MePage = async () => {
   const selfUser = await getAuth();
@@ -44,15 +43,14 @@ const MePage = async () => {
         <Avatar
           isBordered
           color="default"
-          className="h-20 w-20"
+          className="h-20 min-h-80 w-20 min-w-80"
           src={selfUser.image}
         />
         <div className="text-foreground">
           <h1 className="text-2xl font-semibold lg:text-5xl">
             {selfUser.name}
           </h1>
-          <h2 className="flex items-center gap-2 text-lg font-light lg:text-2xl">
-            <LogoutBadge />
+          <h2 className="flex flex-wrap items-center gap-2 text-lg font-light lg:text-2xl">
             {selfUser.EJG_code && (
               <IDCard codeType="barcode" EJG_code={selfUser.EJG_code} />
             )}
@@ -69,7 +67,7 @@ const MePage = async () => {
                   <Link
                     key={option.title}
                     href={option.href}
-                    className="rounded-xl bg-selfsecondary-300 px-4 py-2.5 text-sm text-foreground"
+                    className="bg-selfsecondary-300 text-foreground rounded-xl px-4 py-2.5 text-sm"
                   >
                     {option.title}
                   </Link>

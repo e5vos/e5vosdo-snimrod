@@ -7,41 +7,44 @@ import {
 import { Menu } from "@/components/menza/menu";
 import { Section } from "@/components/home/section";
 import { Events } from "@/components/events";
-import { getAuth } from "@/db/dbreq";
-// import Carousel from "@/components/home/carousel";
+import { getAuth, UserType } from "@/db/dbreq";
 import Tray from "@/components/tray";
 import LoginButton from "@/components/LoginButton";
 import Footer from "@/components/footer";
-import Elections from "@/components/events/elections";
+import Carousel from "@/components/home/carousel";
+
+const PageHeadContent = ({
+  selfUser,
+}: {
+  selfUser: UserType | null | undefined;
+}) => {
+  if (selfUser?.permissions.includes("user"))
+    return <Carousel data={[]} selfUser={selfUser} />;
+
+  if (selfUser === null)
+    return (
+      <Tray>
+        <h1 className="text-3xl font-bold text-selfprimary-900 md:text-4xl">
+          Sajnáljuk, valamilyen hiba történt. Kérjük, próbáld újra később!
+        </h1>
+      </Tray>
+    );
+
+  return (
+    <Tray>
+      <h1 className="text-3xl font-bold text-selfprimary-900 md:text-4xl">
+        Hiányolsz valamit? Netán a híreket?
+        <LoginButton />
+      </h1>
+    </Tray>
+  );
+};
 
 export default async function Home() {
   const selfUser = await getAuth();
   return (
     <div>
-      {(() => {
-        return <Elections />;
-
-        if (selfUser?.permissions.includes("user")) {
-          // return <Carousel selfUser={selfUser} data={[]} />;
-        } else if (selfUser === null) {
-          return (
-            <Tray>
-              <h1 className="text-3xl font-bold text-selfprimary-900 md:text-4xl">
-                Sajnáljuk, valamilyen hiba történt. Kérjük, próbáld újra később!
-              </h1>
-            </Tray>
-          );
-        } else {
-          return (
-            <Tray>
-              <h1 className="text-3xl font-bold text-selfprimary-900 md:text-4xl">
-                Hiányolsz valamit? Netán a híreket?
-                <LoginButton />
-              </h1>
-            </Tray>
-          );
-        }
-      })()}
+      <PageHeadContent selfUser={selfUser} />
 
       {siteConfig.pageSections["helyettesitesek"] != "hidden" && (
         <Section
