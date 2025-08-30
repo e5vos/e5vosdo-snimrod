@@ -15,6 +15,8 @@ import { addLog, getAuth, updateUser, User } from "@/db/dbreq";
 import Cookie from "@/components/cookie";
 import OnCSSBug from "@/components/home/oncssbug";
 import Alerts from "@/components/home/alerts";
+import RunClientSide from "./runClientSide";
+import MaintenanceGate from "@/components/home/maintenanceGate";
 import RunClientSideWrapper from "./runClientSideWrapper";
 
 export const dynamic = "force-dynamic";
@@ -118,7 +120,9 @@ export default async function RootLayout({
             <Alerts />
             <main className="container mx-auto max-w-7xl flex-grow bg-selfprimary-bg pl-3 pr-3 pt-4">
               <OnCSSBug />
-              {children}
+              <MaintenanceGate selfUser={selfUser} isActive={false}>
+                {children}
+              </MaintenanceGate>
             </main>
             <footer className="flex w-full items-center justify-center bg-selfprimary-bg py-3">
               <Link
