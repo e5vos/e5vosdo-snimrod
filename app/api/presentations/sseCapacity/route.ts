@@ -78,7 +78,7 @@ if (isTimerWorker) {
   globalState.gSignupPresentationsInterval ??= setInterval(sendCapacity, 2000);
   globalState.gSignupHeartbeatInterval ??= setInterval(
     () => sendCapacity(false),
-    5000,
+    20000,
   );
 }
 
